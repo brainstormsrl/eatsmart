@@ -10,8 +10,11 @@
         <?php echo $__env->make('layouts.headers.cards.driver', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
 
-    <?php if(auth()->user()->hasRole('admin')): ?>
-        <?php if(config('app.isft')): ?>
+    <?php if(
+        (auth()->user()->hasRole('admin')&&config('app.isft')) ||
+        (auth()->user()->hasRole('owner')&&in_array("drivers", config('global.modules',[]))) 
+    ): ?>
+      
         <div class="container-fluid mt--7 mb-8">
             <div class="row">
                 <div class="col-xl-12">
@@ -19,8 +22,8 @@
                 </div>
             </div>
         </div>  
-        <?php endif; ?>
     <?php endif; ?>
+    
 
     <?php if(!auth()->user()->hasRole('driver')): ?>
     <div class="container-fluid mt--7">
@@ -39,7 +42,7 @@
                     <script>
                         var salesValue= <?php echo json_encode($salesValue, 15, 512) ?>;
                         var monthLabels = <?php echo json_encode($monthLabels, 15, 512) ?>;
-                        console.log(monthLabels);
+                        
                         totalOrders=[];
                         salesValues=[];
                         costValues=[];
@@ -52,11 +55,9 @@
                             }else{
                                 costValues.push(0);
                             }
-                            
-                            //console.log(salesValue[item])
                             }
                         
-                        console.log(totalOrders);
+                        
                         
                     </script>
 
@@ -173,8 +174,10 @@
 
       
 
-    <?php if(auth()->user()->hasRole('admin')): ?>
-    <?php if(config('app.isft')): ?>
+<?php if(
+    (auth()->user()->hasRole('admin')&&config('app.isft')) ||
+    (auth()->user()->hasRole('owner')&&in_array("drivers", config('global.modules',[]))) 
+): ?>
 
     <!-- Live orders -->
     <script src="<?php echo e(asset('custom')); ?>/js/liveorders.js"></script>
@@ -201,7 +204,7 @@
 
         var link='/restaurantslocations';
         axios.get(link).then(function (response) {
-            console.log(response.data.restaurants);
+            
 
             response.data.restaurants.forEach(restaurant => {
 
@@ -217,17 +220,16 @@
                         color:"red"
                     });
 
-                    bounds.extend(restoMarker.position);
-
-
-                    google.maps.event.addListener(restoMarker, 'click', (function(restoMarker, i) {
-                       
+                    restoMarker.addListener("click", () => {
                         var content="<a href=\"/orders?restorant_id="+restaurant.id+"\"><strong>"+restaurant.name+"</strong></a>";
-                        return function() {
-                            infowindow.setContent(content);
-                            infowindow.open(map, restoMarker);
-                        }
-                    })(restoMarker, i));
+                        infowindow.setContent(content);
+                        infowindow.open({
+                            anchor: restoMarker,
+                            map,
+                            shouldFocus: false,
+                        });
+                    });
+                    bounds.extend(restoMarker.position);
             });
 
             map.fitBounds(bounds);
@@ -258,12 +260,12 @@
             
 
             axios.get(link).then(function (response) {
-                console.log(response.data.drivers);
+                
 
                 
                 response.data.drivers.forEach(driver => {
                     
-                    console.log(driver);
+                    
                     if(driver.lat!=null){
 
                         
@@ -412,12 +414,11 @@
                 
             })
             .catch(function (error) {
-                console.log(error);
+                
             });
     };
    
     </script>
-    <?php endif; ?>
     <?php endif; ?>
 <?php $__env->stopPush(); ?>
 

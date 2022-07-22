@@ -36,14 +36,14 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#">
                         <?php $__currentLoopData = $availableLanguages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $short => $lang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <?php if(strtolower($short) == strtolower($locale)): ?> <span><?php echo e($lang); ?></span> <?php endif; ?>
+                            <?php if(strtolower($short) == strtolower($locale)): ?> <span><?php echo e(__($lang)); ?></span> <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         <i class="fas fa-angle-down nav-link-arrow ml-2"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <?php $__currentLoopData = $availableLanguages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $short => $lang): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <li>
-                                <a class="dropdown-item" href="/<?php echo e(strtolower($short)); ?>"><?php echo e($lang); ?></a>
+                                <a class="dropdown-item" href="/<?php echo e(strtolower($short)); ?>"><?php echo e(__($lang)); ?></a>
                             </li>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>

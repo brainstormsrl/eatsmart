@@ -28,11 +28,11 @@
                                     <th scope="col"><?php echo e(__('Name')); ?></th>
                                     <th scope="col"><?php echo e(__('Price')); ?></th>
                                     <th scope="col"><?php echo e(__('Period')); ?></th>
-
-                                    <th scope="col"><?php echo e(__('Items limit')); ?></th>
-                                    <th scope="col"><?php echo e(__('Ordering')); ?></th>
-
-
+                                    <?php if(config('app.issd')): ?>
+                                        <th scope="col"><?php echo e(__('Orders')); ?></th>
+                                    <?php else: ?>
+                                        <th scope="col"><?php echo e(__('Ordering')); ?></th>
+                                    <?php endif; ?>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -42,8 +42,12 @@
                                     <td><a href="<?php echo e(route('plans.edit', $plan)); ?>"><?php echo e($plan->name); ?> </a></td>
                                     <td><?php echo e($plan->price); ?></td>
                                     <td><?php echo e($plan->period == 1 ? __("Monthly") : __("Anually")); ?></td>
-                                    <td><?php echo e($plan->limit_items == 0 ? __("Unlimited") : $plan->limit_items); ?></td>
-                                    <td><?php echo e($plan->enable_ordering == 1 ? __("Enabled") : __("Disabled")); ?></td>
+                                    <?php if(config('app.issd')): ?>
+                                        <td><?php echo e($plan->limit_orders==0?"∞": $plan->limit_orders); ?></td>
+                                    <?php else: ?>
+                                        <td><?php echo e($plan->enable_ordering == 1 ? __("Enabled") : __("Disabled")); ?></td>
+                                    <?php endif; ?>
+                                    
                                     <td class="text-right">
                                         <div class="dropdown">
                                             <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

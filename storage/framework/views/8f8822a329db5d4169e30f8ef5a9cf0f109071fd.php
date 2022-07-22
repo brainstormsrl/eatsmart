@@ -34,11 +34,10 @@
             </div>
 
             <?php if(!$showLinkToPlans): ?>
-            
                 <?php if(strlen(auth()->user()->cancel_url)>5 && ( config('settings.subscription_processor') == "Stripe")): ?>
                     <div class="card-footer py-4">
-                        <a href="<?php echo e(auth()->user()->update_url); ?>" target="_blank" class="btn btn-warning"><?php echo e(__('Update subscription')); ?></a>
-                        <a href="<?php echo e(auth()->user()->cancel_url); ?>" target="_blank" class="btn btn-danger"><?php echo e(__('Cancel subscription')); ?></a>
+                        
+                        <a href="<?php echo e(auth()->user()->cancel_url); ?>"  onclick="return confirm('Are you sure?')" class="btn btn-sm btn-outline-danger"><?php echo e(__('Cancel subscription')); ?></a>
                     </div>
                 <?php endif; ?>
 
