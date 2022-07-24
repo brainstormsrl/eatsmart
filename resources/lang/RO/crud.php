@@ -14,6 +14,7 @@ return array (
   'item_has_been_added' => ':item a fost șters cu succes',
   'item_has_been_removed' => ':item a fost șters cu succes',
   'item_has_been_updated' => ':item a fost editat cu succes',
+  'item_has_items_associated' => ':Item este asociat cu alte unitati, vă rugăm să le ștergeți înainte să ștergeți :item.',
   'item_managment' => ':Item management',
   'new_item' => ':item nou',
   'no_items' => 'Nu sunt :items',

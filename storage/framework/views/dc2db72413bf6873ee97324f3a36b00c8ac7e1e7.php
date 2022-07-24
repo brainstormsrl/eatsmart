@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form  id="registerform" method="post" action="<?php echo e(route('newrestaurant.store')); ?>" autocomplete="off">
+                        <form  id="<?php echo e(getFormId()); ?>" method="post" action="<?php echo e(route('newrestaurant.store')); ?>" autocomplete="off">
                             <?php echo csrf_field(); ?>
 
                             <h6 class="heading-small text-muted mb-4"><?php echo e(__('Restaurant information')); ?></h6>

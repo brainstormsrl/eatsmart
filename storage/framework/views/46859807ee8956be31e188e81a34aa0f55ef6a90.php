@@ -42,6 +42,9 @@
                                 <button type="button" onclick="loginAs('driver@example.com')" class="btn btn-outline-info">Login as Driver</button><br /><br />
                                 <button type="button" onclick="loginAs('client@example.com')" class="btn btn-outline-primary">Login as Client</button><br /><br />
                             <?php endif; ?>
+                            <?php if(config('app.issd')): ?>
+                                <button type="button" onclick="loginAs('driver@example.com')" class="btn btn-outline-info">Login as Driver</button><br /><br />
+                            <?php endif; ?>
                             <?php if(config('settings.is_pos_cloud_mode')): ?>
                                 <button type="button" onclick="loginAs('staff@example.com')" class="btn btn-outline-warning">Login as Staff</button><br /><br />
                             <?php endif; ?>
@@ -117,6 +120,15 @@
                             <div class="text-center">
                                 <button type="submit" class="btn btn-danger my-4"><?php echo e(__('Sign in')); ?></button>
                             </div>
+
+                            <?php if(config('app.isft')): ?>
+                                <div class="text-center">
+                                    <hr />
+                                    <a href="<?php echo e(route('register')); ?>" class="btn btn-success my-4">
+                                        <small><?php echo e(__('Create new account')); ?></small>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                         </form>
                     </div>
                 </div>
@@ -128,13 +140,7 @@
                             </a>
                         <?php endif; ?>
                     </div>
-                    <?php if(config('app.isft')): ?>
-                        <div class="col-6 text-right">
-                            <a href="<?php echo e(route('register')); ?>" class="text-light">
-                                <small><?php echo e(__('Create new account')); ?></small>
-                            </a>
-                        </div>
-                    <?php endif; ?>
+                    
                 </div>
             </div>
         </div>

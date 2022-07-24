@@ -1,0 +1,1 @@
+<span><?php echo e($time); ?></span><?php /**PATH C:\xampp\htdocs\restaurant\resources\views/orders/partials/time.blade.php ENDPATH**/ ?>

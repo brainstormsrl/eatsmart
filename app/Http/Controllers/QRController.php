@@ -17,7 +17,10 @@ class QRController extends Controller
         }else if (config('settings.wildcard_domain_ready')) {
             $linkToTheMenu = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] ? 'https://' : 'http://').auth()->user()->restorant->subdomain.'.'.str_replace('www.', '', $_SERVER['HTTP_HOST']);
         }
-
+        if(isset($_GET['table_id'])){
+            $linkToTheMenu = $linkToTheMenu.'?tid='.$_GET['table_id'];
+            echo true;
+        }
         $dataToPass = [
             'url'=>$linkToTheMenu,
             'titleGenerator'=>__('Restaurant QR Generators'),
@@ -32,7 +35,6 @@ class QRController extends Controller
             'templates'=>explode(',', config('settings.templates')),
             'linkToTemplates'=>env('linkToTemplates', '/impactfront/img/templates.zip'),
         ];
-
         return view('qrsaas.qrgen')->with('data', json_encode($dataToPass));
     }
 }

@@ -9,7 +9,7 @@
     <td>
 
         <?php if($setup['hasFloorPlan']): ?>
-        <a href="<?php echo e(route('floorplan.edit',$item->id)); ?>" class="btn btn-success btn-sm"><span class="btn-inner--icon"><i class="ni ni-vector"></i></span> <?php echo e(__('Floor Plan')); ?></a>
+            <a href="<?php echo e(route('floorplan.edit',$item->id)); ?>" class="btn btn-success btn-sm"><span class="btn-inner--icon"><i class="ni ni-vector"></i></span> <?php echo e(__('Floor Plan')); ?></a>
         <?php endif; ?>
         <a href="<?php echo e(route( $setup['webroute_path']."edit",$param)); ?>" class="btn btn-primary btn-sm"><span class="btn-inner--icon"><i class="ni ni-ruler-pencil"></i></span> <?php echo e(__('crud.edit')); ?></a>
         <a href="<?php echo e(route( $setup['webroute_path']."delete",$param)); ?>" class="btn btn-danger btn-sm"><span class="btn-inner--icon"><i class="ni ni-fat-remove"></i></span> <?php echo e(__('crud.delete')); ?></a>

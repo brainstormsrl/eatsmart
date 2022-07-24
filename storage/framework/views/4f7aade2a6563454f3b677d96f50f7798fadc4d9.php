@@ -11,9 +11,16 @@
 <?php echo $__env->make('partials.input',['type'=>'number','name'=>'Price','id'=>"price",'placeholder'=>"Plan prce",'required'=>true,'value'=>(isset($plan)?$plan->price:null)], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <div class="row">
-    <div class="col-md-6">
-        <?php echo $__env->make('partials.input',['type'=>"number", 'name'=>'Items limit','id'=>"limit_items",'placeholder'=>"Number of items",'required'=>false,'additionalInfo'=>"0 is unlimited numbers of items",'value'=>(isset($plan)?$plan->limit_items:null)], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-    </div>
+    <?php if(!config('app.issd',false)): ?>
+        <div class="col-md-6">
+            <?php echo $__env->make('partials.input',['type'=>"number", 'name'=>'Items limit','id'=>"limit_items",'placeholder'=>"Number of items",'required'=>false,'additionalInfo'=>"0 is unlimited numbers of items",'value'=>(isset($plan)?$plan->limit_items:null)], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        </div>
+    <?php else: ?>
+        <div class="col-md-6">
+            <?php echo $__env->make('partials.input',['type'=>"number", 'name'=>'Drivers limit','id'=>"limit_items",'placeholder'=>"Number of drivers",'required'=>false,'additionalInfo'=>"0 is unlimited numbers of drivers",'value'=>(isset($plan)?$plan->limit_items:null)], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        </div>
+    <?php endif; ?>
+   
     <?php if(config('settings.subscription_processor')=='Stripe'): ?>
         <div class="col-md-6">
             <?php echo $__env->make('partials.input',['name'=>'Stripe Pricing Plan ID','id'=>"stripe_id",'placeholder'=>"Product price plan id from Stripe starting with price_xxxxxx",'required'=>false,'value'=>(isset($plan)?$plan->stripe_id:null)], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
@@ -42,27 +49,33 @@
 
 
 <!-- ORDERS -->
-<div class="col-md-6">
-    <label class="form-control-label"><?php echo e(__("Ordering")); ?></label>
-    <div class="custom-control custom-radio mb-3">
-        <input name="ordering" class="custom-control-input" id="enabled" value="enabled"  <?php if(isset($plan)): ?>  <?php if($plan->enable_ordering == 1): ?> checked <?php endif; ?> <?php else: ?> checked <?php endif; ?>  type="radio">
-        <label class="custom-control-label" for="enabled"><?php echo e(__('Enabled')); ?></label>
+<?php if(!config('app.issd')): ?>
+    <div class="col-md-6">
+        <label class="form-control-label"><?php echo e(__("Ordering")); ?></label>
+        <div class="custom-control custom-radio mb-3">
+            <input name="ordering" class="custom-control-input" id="enabled" value="enabled"  <?php if(isset($plan)): ?>  <?php if($plan->enable_ordering == 1): ?> checked <?php endif; ?> <?php else: ?> checked <?php endif; ?>  type="radio">
+            <label class="custom-control-label" for="enabled"><?php echo e(__('Enabled')); ?></label>
+        </div>
+        <div class="custom-control custom-radio mb-3">
+            <input name="ordering" class="custom-control-input" id="disabled" value="disabled" <?php if(isset($plan) && $plan->enable_ordering == 2): ?> checked <?php endif; ?> type="radio">
+            <label class="custom-control-label" for="disabled"><?php echo e(__('Disabled')); ?></label>
+        </div>
     </div>
-    <div class="custom-control custom-radio mb-3">
-        <input name="ordering" class="custom-control-input" id="disabled" value="disabled" <?php if(isset($plan) && $plan->enable_ordering == 2): ?> checked <?php endif; ?> type="radio">
-        <label class="custom-control-label" for="disabled"><?php echo e(__('Disabled')); ?></label>
-    </div>
-</div>
+   
+<?php else: ?> 
+    <input name="ordering" value="enabled" type="hidden" /> 
+<?php endif; ?>
 
 
 <div class="col-md-6 mt-3">
     <?php echo $__env->make('partials.input',['type'=>"number", 'name'=>'Orders limit per plan period','id'=>"limit_orders",'placeholder'=>"Number of orders per period",'required'=>false,'additionalInfo'=>"0 is unlimited numbers of orders per period",'value'=>(isset($plan)?$plan->limit_orders:null)], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </div>
 
+
 </div>
 <br/>
 
-
+<?php echo $__env->make('plans.plugins', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <div class="text-center">
     <button type="submit" class="btn btn-success mt-4"><?php echo e(isset($plan)?__('Update plan'):__('SAVE')); ?></button>
