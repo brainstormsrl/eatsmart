@@ -22,7 +22,10 @@ Route::post('/search/location', 'FrontEndController@getCurrentLocation')->name('
 
 Auth::routes(['register' => config('app.isft')]);
 
-
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    return 'DONE'; //Return anything
+});
 
 Route::get('/selectpay/{order}', 'PaymentController@selectPaymentGateway')->name('selectpay');
 Route::get('/selectedpaymentt/{order}/{payment}', 'PaymentController@selectedPaymentGateway')->name('selectedpaymentt');
