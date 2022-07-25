@@ -66,6 +66,8 @@ window.onload = function () {
       }
     })
 
+    getCall();
+    setInterval(getCall, 3000);
     getLiveOrders();
     setInterval(getLiveOrders, 10000);
 

@@ -1,5 +1,6 @@
 @section('js')
     <script src="{{ asset('custom') }}/js/liveorders.js"></script>
+    <script src="{{ asset('custom') }}/js/call_staff.js"></script>
 @endsection
  
 @section('admin_title')
@@ -106,6 +107,7 @@
 
         @include('layouts.footers.auth')
     </div>
+  
     <div class="modal fade modal-xl" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal-l modal-dialog-centered" style="max-width:1140px" role="document">
         <div class="modal-content">
@@ -234,5 +236,4 @@
         </div>
         </div>
         </div>
-
 @endsection

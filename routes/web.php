@@ -175,6 +175,7 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
 
     Route::get('ordertracingapi/{order}', 'OrderController@orderLocationAPI');
     Route::get('liveapi', 'OrderController@liveapi');
+    Route::get('liveapistaff', 'OrderController@call_staff');
     Route::get('driverlocations', 'DriverController@driverlocations');
     Route::get('restaurantslocations', 'RestorantController@restaurantslocations');
 

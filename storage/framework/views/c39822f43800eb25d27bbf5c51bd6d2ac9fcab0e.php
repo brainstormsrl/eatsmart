@@ -1,5 +1,6 @@
 <?php $__env->startSection('js'); ?>
     <script src="<?php echo e(asset('custom')); ?>/js/liveorders.js"></script>
+    <script src="<?php echo e(asset('custom')); ?>/js/call_staff.js"></script>
 <?php $__env->stopSection(); ?>
  
 <?php $__env->startSection('admin_title'); ?>
@@ -107,6 +108,7 @@
 
         <?php echo $__env->make('layouts.footers.auth', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     </div>
+  
     <div class="modal fade modal-xl" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal-l modal-dialog-centered" style="max-width:1140px" role="document">
         <div class="modal-content">
@@ -235,7 +237,6 @@
         </div>
         </div>
         </div>
-
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', ['title' => __('Orders')], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\restaurant\resources\views/orders/live.blade.php ENDPATH**/ ?>

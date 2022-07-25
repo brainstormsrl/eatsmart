@@ -701,6 +701,30 @@ class OrderController extends Controller
         return response()->json($toRespond);
     }
 
+
+    public function call_staff(){
+
+        if (auth()->user()->hasRole('client')) {
+            abort(404,'Nu este permis ca client');
+        }
+
+        // cand apasa butonul ca se apropie delivered se schimba in true, si status = confirmed
+
+        $table_id = 2;
+        $delivered = true ;
+        $date = date('d-m-y');
+        $status = 'wait_confirmation';
+        $toRespond = [
+            'delivered'=>$delivered,
+            'table_id'=>$table_id,
+            'status'=>$status,
+            'date'=>$date,
+        ];
+
+
+        return response()->json($toRespond);
+    }
+
     public function live()
     {
         return view('orders.live');
