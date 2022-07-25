@@ -21,7 +21,7 @@ return [
         'shortcuts' => [
             [
                 'name' => 'Home',
-                'description' => 'Go home',
+                'description' => 'Principală',
                 'url' => '/',
                 'icons' => [
                     'src' => '/images/icons/icon-72x72.png',
