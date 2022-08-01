@@ -19,7 +19,6 @@ class QRController extends Controller
         }
         if(isset($_GET['table_id'])){
             $linkToTheMenu = $linkToTheMenu.'?tid='.$_GET['table_id'];
-            echo true;
         }
         $dataToPass = [
             'url'=>$linkToTheMenu,

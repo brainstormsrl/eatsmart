@@ -82502,7 +82502,7 @@ if (document.getElementById('qrgen')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/danieldimov/Documents/Projects/Mobidonia/CodeCanyon/MRestorant/Site/resources/js/appreact.js */"./resources/js/appreact.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\restaurant\resources\js\appreact.js */"./resources/js/appreact.js");
 
 
 /***/ })
