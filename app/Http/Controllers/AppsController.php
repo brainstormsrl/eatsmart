@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Akaunting\Module\Facade as Module;
 use Illuminate\Support\Facades\File;
@@ -12,7 +13,7 @@ class AppsController extends Controller
     public function index(){
 
         $this->adminOnly();
-        
+
         //1. Get all available apps
         //$appsLink="https://raw.githubusercontent.com/mobidonia/foodtigerapps/main/apps30.json";
         $appsLink="https://apps.poslion.com?version=".config('config.version');
@@ -20,14 +21,14 @@ class AppsController extends Controller
         $installed = [];
         foreach (Module::all() as $key => $module) {
             array_push($installed,$module->alias);
-            
+
         }
         $installedAsString=implode(',',$installed);
         $appsLink.="&installed=".$installedAsString;
-      
+
         //Code
         $appsLink.="&code=".config('settings.extended_license_download_code');
-        $response = (new \GuzzleHttp\Client())->get($appsLink);
+        $response = (new Client(['verify' => false]))->get($appsLink);
 
         $rawApps=[];
         if ($response->getStatusCode() == 200) {
@@ -49,7 +50,7 @@ class AppsController extends Controller
                 }else{
                     $app->updateAvailable=false;
                 }
-                
+
             }
             if(!isset($app->category)){
                 $app->category=['tools'];
@@ -58,7 +59,7 @@ class AppsController extends Controller
 
         //Filter apps by type
         $apps=[];
-        $newRawApps=unserialize(serialize($rawApps));;
+        $newRawApps=unserialize(serialize($rawApps));
         foreach ($newRawApps as $key => $app) {
             if(isset($app->rule)&&$app->rule){
                 $rules=explode(',',$app->rule);
@@ -73,7 +74,7 @@ class AppsController extends Controller
                 $alreadyAdded=true;
                array_push($apps,$app);
             }
-            
+
             //remove
             if($alreadyAdded&&isset($app->rulenot)&&$app->rulenot){
                 $alreadyRemoved=false;
@@ -87,7 +88,7 @@ class AppsController extends Controller
                 }
             }
         }
-        
+
 
         //3. Return view
         return view('apps.index',compact('apps'));
@@ -108,9 +109,9 @@ class AppsController extends Controller
     }
 
     public function store(Request $request){
-       
+
         $path=$request->appupload->storeAs('appupload', $request->appupload->getClientOriginalName());
-        
+
         $fullPath = storage_path('app/'.$path);
         $zip = new ZipArchive;
 
@@ -129,8 +130,8 @@ class AppsController extends Controller
 
             // Extract file
             $zip->extractTo($destination);
-            
-            // Close ZipArchive     
+
+            // Close ZipArchive
             $zip->close();
             return redirect()->route('apps.index')->withStatus($message);
         }else{

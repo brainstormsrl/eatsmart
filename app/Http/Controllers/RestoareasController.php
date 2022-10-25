@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\RestoArea;
+use App\User;
 use Illuminate\Http\Request;
 use Akaunting\Module\Facade as Module;
 
@@ -51,8 +52,16 @@ class RestoareasController extends Controller
      */
     private function getFields()
     {
+        $users = $this->getRestaurant()->staff()->get(['id', 'email', 'name']);
+        $data = [];
+        foreach ($users as $user) {
+            $data[$user->id] = $user->name;
+        }
+
         return [
-            ['ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>__('crud.enter_item_name', ['item'=>__($this->title)]), 'required'=>true],
+            ['ftype' => 'input', 'name' => 'Name', 'id' => 'name', 'placeholder' => __('crud.enter_item_name', ['item' => __($this->title)]), 'required' => true],
+
+            ['ftype' => 'select', 'name' => "Area CareTaker", 'id' => "caretaker_id", 'data' => $data, 'required' => true, 'value' => $user->id]
         ];
     }
 
@@ -65,18 +74,18 @@ class RestoareasController extends Controller
     {
         $this->authChecker();
 
-        return view($this->view_path.'index', ['setup' => [
-            'title'=>__('crud.item_managment', ['item'=>__($this->titlePlural)]),
-            'action_link'=>route($this->webroute_path.'create'),
-            'action_name'=>__('crud.add_new_item', ['item'=>__($this->title)]),
-            'action_link2'=>route('admin.restaurant.tables.index')."?do_not_redirect=true",
-            'action_name2'=>__('Tables'),
-            'items'=>$this->getRestaurant()->areas()->paginate(config('settings.paginate')),
-            'item_names'=>$this->titlePlural,
-            'webroute_path'=>$this->webroute_path,
-            'fields'=>$this->getFields(),
-            'parameter_name'=>$this->parameter_name,
-            'hasFloorPlan'=>Module::has('floorplan')
+        return view($this->view_path . 'index', ['setup' => [
+            'title' => __('crud.item_managment', ['item' => __($this->titlePlural)]),
+            'action_link' => route($this->webroute_path . 'create'),
+            'action_name' => __('crud.add_new_item', ['item' => __($this->title)]),
+            'action_link2' => route('admin.restaurant.tables.index') . "?do_not_redirect=true",
+            'action_name2' => __('Tables'),
+            'items' => $this->getRestaurant()->areas()->paginate(config('settings.paginate')),
+            'item_names' => $this->titlePlural,
+            'webroute_path' => $this->webroute_path,
+            'fields' => $this->getFields(),
+            'parameter_name' => $this->parameter_name,
+            'hasFloorPlan' => Module::has('floorplan')
         ]]);
     }
 
@@ -89,14 +98,16 @@ class RestoareasController extends Controller
     {
         $this->authChecker();
 
-        return view('general.form', ['setup' => [
-            'title'=>__('crud.new_item', ['item'=>__($this->title)]),
-            'action_link'=>route($this->webroute_path.'index'),
-            'action_name'=>__('crud.back'),
-            'iscontent'=>true,
-            'action'=>route($this->webroute_path.'store'),
-        ],
-        'fields'=>$this->getFields(), ]);
+        return view('general.form', [
+            'setup' => [
+                'title' => __('crud.new_item', ['item' => __($this->title)]),
+                'action_link' => route($this->webroute_path . 'index'),
+                'action_name' => __('crud.back'),
+                'iscontent' => true,
+                'action' => route($this->webroute_path . 'store'),
+            ],
+            'fields' => $this->getFields(),
+        ]);
     }
 
     /**
@@ -109,12 +120,13 @@ class RestoareasController extends Controller
     {
         $this->authChecker();
         $item = $this->provider::create([
-            'name'=>$request->name,
-            'restaurant_id'=>$this->getRestaurant()->id,
+            'name' => $request->name,
+            'restaurant_id' => $this->getRestaurant()->id,
+            'user_id' => $request->caretaker_id,
         ]);
         $item->save();
 
-        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_added', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path . 'index')->withStatus(__('crud.item_has_been_added', ['item' => __($this->title)]));
     }
 
     /**
@@ -144,15 +156,17 @@ class RestoareasController extends Controller
         $parameter = [];
         $parameter[$this->parameter_name] = $id;
 
-        return view('general.form', ['setup' => [
-            'title'=>__('crud.edit_item_name', ['item'=>__($this->title), 'name'=>$item->name]),
-            'action_link'=>route($this->webroute_path.'index'),
-            'action_name'=>__('crud.back'),
-            'iscontent'=>true,
-            'isupdate'=>true,
-            'action'=>route($this->webroute_path.'update', $parameter),
-        ],
-        'fields'=>$fields, ]);
+        return view('general.form', [
+            'setup' => [
+                'title' => __('crud.edit_item_name', ['item' => __($this->title), 'name' => $item->name]),
+                'action_link' => route($this->webroute_path . 'index'),
+                'action_name' => __('crud.back'),
+                'iscontent' => true,
+                'isupdate' => true,
+                'action' => route($this->webroute_path . 'update', $parameter),
+            ],
+            'fields' => $fields,
+        ]);
     }
 
     /**
@@ -167,9 +181,10 @@ class RestoareasController extends Controller
         $this->authChecker();
         $item = $this->provider::findOrFail($id);
         $item->name = $request->name;
+        $item->user_id = $request->caretaker_id;
         $item->update();
 
-        return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_updated', ['item'=>__($this->title)]));
+        return redirect()->route($this->webroute_path . 'index')->withStatus(__('crud.item_has_been_updated', ['item' => __($this->title)]));
     }
 
     /**
@@ -183,11 +198,11 @@ class RestoareasController extends Controller
         $this->authChecker();
         $item = $this->provider::findOrFail($id);
         if ($item->tables->count() > 0) {
-            return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_items_associated', ['item'=>__($this->title)]));
+            return redirect()->route($this->webroute_path . 'index')->withStatus(__('crud.item_has_items_associated', ['item' => __($this->title)]));
         } else {
             $item->delete();
 
-            return redirect()->route($this->webroute_path.'index')->withStatus(__('crud.item_has_been_removed', ['item'=>__($this->title)]));
+            return redirect()->route($this->webroute_path . 'index')->withStatus(__('crud.item_has_been_removed', ['item' => __($this->title)]));
         }
     }
 }

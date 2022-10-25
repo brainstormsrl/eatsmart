@@ -246,6 +246,11 @@ class User extends Authenticatable
         return Session::has('impersonate');
     }
 
+    public function restoarea()
+    {
+        return $this->hasOne(RestoArea::class);
+    }
+
 
 
 
