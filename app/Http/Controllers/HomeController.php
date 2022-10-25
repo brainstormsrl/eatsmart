@@ -291,7 +291,7 @@ class HomeController extends Controller
             'doWeHaveExpensesApp'=>$doWeHaveExpensesApp,
             'last30daysOrders' => $last30daysOrders,
             'last30daysOrdersValue'=> $last30daysOrdersValue,
-            'allViews' => auth()->user()->hasRole('owner')?auth()->user()->restorant->views:Restorant::sum('views'),
+            'allViews' => auth()->user()->hasRole('owner')?auth()->user()->restaurant->views:Restorant::sum('views'),
             'salesValue' => $salesValue,
             'monthLabels' =>  $monthList,
             'countItems'=>$countItems,

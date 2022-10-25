@@ -262,7 +262,7 @@ class Controller extends BaseController
         //If the owner hasn't set auth()->user()->restaurant_id set it now
         if (auth()->user()->hasRole('owner')){
             if(auth()->user()->restaurant_id==null){
-                auth()->user()->restaurant_id=Restorant::where('user_id', auth()->user()->id)->first()->id;
+                auth()->user()->restaurant_id=Restorant::with('user')->where('user_id', auth()->user()->id)->first()->id;
                 auth()->user()->update();
             }
             //Get restaurant for currerntly logged in user

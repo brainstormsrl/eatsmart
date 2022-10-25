@@ -51,8 +51,8 @@ class Main extends Controller
      */
     private function authChecker()
     {
-        if (! auth()->user()->hasRole('owner')) {
-            abort(403, 'Unauthorized action.');
+        if (!auth()->user()->hasRole('owner')) {
+            abort(401, 'Unauthorized action.');
         }
     }
 
@@ -168,7 +168,7 @@ class Main extends Controller
     public function edit($id)
     {
         $this->authChecker();
-        
+
         $item = $this->provider::findOrFail($id);
         if (!$this->getRestaurant()->id==$item->restaurant_id) {
             abort(403, 'Unauthorized action.');
