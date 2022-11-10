@@ -10,7 +10,7 @@
         <small>{{ item.price }}</small><br />
     </div>
     <div class="col-auto">
-        <a class="btn btn-sm btn-primary" :href="item.link"><?php echo e(__('Details')); ?></a>
+        <button class="btn btn-sm btn-primary" onclick="notifyMe()" id="test"><?php echo e(__('Details')); ?></button>
     </div>
   </div>
 <?php /**PATH D:\projects\www\eatsmart\resources\views/orders/partials/liveitem.blade.php ENDPATH**/ ?>

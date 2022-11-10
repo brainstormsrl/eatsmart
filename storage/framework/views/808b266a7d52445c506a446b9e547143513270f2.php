@@ -19,7 +19,7 @@
 
         <!-- Fonts -->
         <link href="<?php echo e(asset('css')); ?>/gfonts.css" rel="stylesheet">
-        
+
         <!-- Icons -->
         <link href="<?php echo e(asset('argon')); ?>/vendor/nucleo/css/nucleo.css" rel="stylesheet">
         <link href="<?php echo e(asset('argon')); ?>/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -86,8 +86,8 @@
         <script>
             var t="<?php echo 'translations'.App::getLocale() ?>";
            window.translations = <?php echo Cache::get('translations'.App::getLocale(),"[]"); ?>;
-           
-           
+
+
         </script>
 
         <!-- Navtabs -->
@@ -149,7 +149,7 @@
                 USER_ID = '<?php echo e(auth()->user()->restaurant->user_id); ?>';
             </script>
         <?php endif; ?>
-       
+
 
         <!-- OneSignal -->
         <?php if(strlen( config('settings.onesignal_app_id'))>4): ?>
