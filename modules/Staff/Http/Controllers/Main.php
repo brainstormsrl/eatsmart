@@ -59,9 +59,10 @@ class Main extends Controller
     private function getFields()
     {
         return [
-            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'First and Last name', 'required'=>true],
-            ['class'=>'col-md-4', 'ftype'=>'input', 'name'=>'Email', 'id'=>'email', 'placeholder'=>'Enter email', 'required'=>true],
-            ['class'=>'col-md-4', 'ftype'=>'input','type'=>"password", 'name'=>'Password', 'id'=>'password', 'placeholder'=>'Enter password', 'required'=>true],
+            ['class'=>'col-md-3', 'ftype'=>'input', 'name'=>'Name', 'id'=>'name', 'placeholder'=>'First and Last name', 'required'=>true],
+            ['class'=>'col-md-3', 'ftype'=>'input', 'name'=>'Email', 'id'=>'email', 'placeholder'=>'Enter email', 'required'=>true],
+            ['class'=>'col-md-3', 'ftype'=>'input', 'name'=>'Phone', 'id'=>'phone', 'placeholder'=>'Enter phone', 'required'=>true],
+            ['class'=>'col-md-3', 'ftype'=>'input','type'=>"password", 'name'=>'Password', 'id'=>'password', 'placeholder'=>'Enter password', 'required'=>true],
         ];
     }
 
@@ -121,6 +122,7 @@ class Main extends Controller
         $item = $this->provider::create([
             'name'=>$request->name,
             'email'=>$request->email,
+            'phone' => $request->phone,
             'password'=>$request->password,
             'password' => Hash::make($request->password),
             'api_token' => Str::random(80),
