@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\HasConfig;
 
+/**
+ * @mixin IdeHelperPlans
+ */
 class Plans extends Model
 {
     use SoftDeletes;

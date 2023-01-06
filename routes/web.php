@@ -13,26 +13,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group([
+    'prefix' => 'telegram',
+    'controller' => 'TelegramController'
+], function () {
+    Route::post('/webhook', 'index');
+    Route::get('/show', 'show');
+});
+
 Route::get('/', 'FrontEndController@index')->name('front');
-Route::get('/'.config('settings.url_route').'/{alias}', 'FrontEndController@restorant')->name('vendor');
+Route::get('/' . config('settings.url_route') . '/{alias}', 'FrontEndController@restorant')->name('vendor');
 Route::get('/city/{city}', 'FrontEndController@showStores')->name('show.stores');
 Route::get('/lang', 'FrontEndController@langswitch')->name('lang.switch');
+
 
 Route::post('/search/location', 'FrontEndController@getCurrentLocation')->name('search.location');
 
 Auth::routes(['register' => config('app.isft')]);
 
-Route::get('/clear-cache', function() {
+Route::get('/clear-cache', function () {
     $exitCode = Artisan::call('config:cache');
     return 'DONE'; //Return anything
 });
+
 
 Route::get('/selectpay/{order}', 'PaymentController@selectPaymentGateway')->name('selectpay');
 Route::get('/selectedpaymentt/{order}/{payment}', 'PaymentController@selectedPaymentGateway')->name('selectedpaymentt');
 
 
-Route::group(['middleware' => ['auth','impersonate']], function () {
-    Route::get('/home/{lang?}', 'HomeController@index')->name('home')->middleware(['isOwnerOnPro','verifiedSetup']);
+Route::group(['middleware' => ['auth', 'impersonate']], function () {
+    Route::get('/home/{lang?}', 'HomeController@index')->name('home')->middleware(['isOwnerOnPro', 'verifiedSetup']);
 
     Route::resource('user', 'UserController', ['except' => ['show']]);
     Route::post('/user/push', 'UserController@checkPushNotificationId');
@@ -40,7 +50,7 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
     Route::name('admin.')->group(function () {
         Route::get('syncV1UsersToAuth0', 'SettingsController@syncV1UsersToAuth0')->name('syncV1UsersToAuth0');
         Route::get('dontsyncV1UsersToAuth0', 'SettingsController@dontsyncV1UsersToAuth0')->name('dontsyncV1UsersToAuth0');
-        Route::resource(config('settings.url_route_plural'), 'RestorantController',[
+        Route::resource(config('settings.url_route_plural'), 'RestorantController', [
             'names' => [
                 'index' => 'restaurants.index',
                 'store' => 'restaurants.store',
@@ -57,18 +67,18 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
 
         Route::get('restaurants/loginas/{restaurant}', 'RestorantController@loginas')->name('restaurants.loginas');
         Route::get('stopimpersonate', 'RestorantController@stopImpersonate')->name('restaurants.stopImpersonate');
-        
+
 
         Route::get('removedemodata', 'RestorantController@removedemo')->name('restaurants.removedemo');
-        Route::get('sitemap','SettingsController@regenerateSitemap')->name('regenerate.sitemap');
+        Route::get('sitemap', 'SettingsController@regenerateSitemap')->name('regenerate.sitemap');
 
-        // Landing page settings 
+        // Landing page settings
         Route::get('landing', 'SettingsController@landing')->name('landing');
         Route::prefix('landing')->name('landing.')->group(function () {
             Route::get('posts/{type}', 'CRUD\PostsController@index')->name('posts');
             Route::get('posts/{type}/create', 'CRUD\PostsController@create')->name('posts.create');
             Route::post('posts/{type}', 'CRUD\PostsController@store')->name('posts.store');
-           
+
             Route::get('posts/edit/{post}', 'CRUD\PostsController@edit')->name('posts.edit');
             Route::put('posts/{post}', 'CRUD\PostsController@update')->name('posts.update');
             Route::get('posts/del/{post}', 'CRUD\PostsController@destroy')->name('posts.delete');
@@ -83,7 +93,6 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
             Route::get('/processes/del/{process}', 'ProcessController@destroy')->name('processes.delete');
         });
 
-       
 
         Route::resource('allergens', 'CRUD\AllergensController');
         Route::get('/allergens/del/{allergen}', 'CRUD\AllergensController@destroy')->name('allergens.delete');
@@ -110,8 +119,6 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
             Route::get('simpledelivery/del/{delivery}', 'SimpleDeliveryController@destroy')->name('simpledelivery.delete');
 
 
-            
-
             // Areas
             Route::resource('restoareas', 'RestoareasController');
             Route::get('restoareas/del/{restoarea}', 'RestoareasController@destroy')->name('restoareas.delete');
@@ -128,7 +135,6 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
             Route::put('coupons/{coupon}', 'CouponsController@update')->name('coupons.update');
             Route::get('coupons/del/{coupon}', 'CouponsController@destroy')->name('coupons.delete');
 
-           
 
             //Banners
             Route::get('banners', 'BannersController@index')->name('banners.index');
@@ -152,8 +158,8 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
     Route::post('/import/restaurants', 'RestorantController@import')->name('import.restaurants');
     Route::get('/restaurant/{restaurant}/activate', 'RestorantController@activateRestaurant')->name('restaurant.activate');
     Route::post('/restaurant/workinghours', 'RestorantController@workingHours')->name('restaurant.workinghours');
-    Route::get('restaurants/working_hours/remove/{hours}','RestorantController@workingHoursremove')->name('restaurant.workinghoursremove');
-    Route::post('/restaurant/address','RestorantController@getCoordinatesForAddress')->name('restaurant.coordinatesForAddress');
+    Route::get('restaurants/working_hours/remove/{hours}', 'RestorantController@workingHoursremove')->name('restaurant.workinghoursremove');
+    Route::post('/restaurant/address', 'RestorantController@getCoordinatesForAddress')->name('restaurant.coordinatesForAddress');
 
     Route::prefix('finances')->name('finances.')->group(function () {
         Route::get('admin', 'FinanceController@adminFinances')->name('admin');
@@ -169,7 +175,7 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
 
     Route::resource('drivers', 'DriverController');
     Route::get('/driver/{driver}/activate', 'DriverController@activateDriver')->name('driver.activate');
-    Route::get('/nearest_driver/','DriverController@getNearestDrivers')->name('drivers.nearest');
+    Route::get('/nearest_driver/', 'DriverController@getNearestDrivers')->name('drivers.nearest');
 
     Route::resource('clients', 'ClientController');
     Route::resource('orders', 'OrderController');
@@ -183,12 +189,12 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
     Route::get('restaurantslocations', 'RestorantController@restaurantslocations');
 
     Route::get('live', 'OrderController@live')->middleware('isOwnerOnPro');
-    Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses'=>'OrderController@updateStatus']);
+    Route::get('/updatestatus/{alias}/{order}', ['as' => 'update.status', 'uses' => 'OrderController@updateStatus']);
 
     Route::resource('settings', 'SettingsController');
-    Route::get('apps','AppsController@index')->name('apps.index');
-    Route::get('appremove/{alias}','AppsController@remove')->name('apps.remove');
-    Route::post('apps','AppsController@store')->name('apps.store');
+    Route::get('apps', 'AppsController@index')->name('apps.index');
+    Route::get('appremove/{alias}', 'AppsController@remove')->name('apps.remove');
+    Route::post('apps', 'AppsController@store')->name('apps.store');
     Route::get('cloudupdate', 'SettingsController@cloudupdate')->name('settings.cloudupdate');
     Route::get('systemstatus', 'SettingsController@systemstatus')->name('systemstatus');
     Route::get('translatemenu', 'SettingsController@translateMenu')->name('translatemenu');
@@ -251,7 +257,7 @@ Route::group(['middleware' => ['auth','impersonate']], function () {
 
     Route::get('qr', 'QRController@index')->name('qr');
 
-    
+
     Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
     Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 
@@ -290,7 +296,7 @@ Route::get('/login/google/redirect', 'Auth\LoginController@googleHandleProviderC
 Route::get('/login/facebook', 'Auth\LoginController@facebookRedirectToProvider')->name('facebook.login');
 Route::get('/login/facebook/redirect', 'Auth\LoginController@facebookHandleProviderCallback');
 
-Route::get('/new/'.config('settings.url_route').'/register', 'RestorantController@showRegisterRestaurant')->name('newrestaurant.register');
+Route::get('/new/' . config('settings.url_route') . '/register', 'RestorantController@showRegisterRestaurant')->name('newrestaurant.register');
 Route::post('/new/restaurant/register/store', 'RestorantController@storeRegisterRestaurant')->name('newrestaurant.store');
 
 
@@ -305,28 +311,28 @@ $availableLanguagesENV = ENV('FRONT_LANGUAGES', 'EN,English,IT,Italian,FR,French
 $exploded = explode(',', $availableLanguagesENV);
 if (count($exploded) > 3) {
 
-    $mode="qrsaasMode";
-    if(config('settings.landing_to_use')!="system"){
-        if(config('settings.landing_to_use')=="whatsapp"){
-            $mode="whatsappMode";
-        }else if(config('settings.landing_to_use')=="pos"){
-            $mode="posMode";
+    $mode = "qrsaasMode";
+    if (config('settings.landing_to_use') != "system") {
+        if (config('settings.landing_to_use') == "whatsapp") {
+            $mode = "whatsappMode";
+        } else if (config('settings.landing_to_use') == "pos") {
+            $mode = "posMode";
         }
-    }else{
-        if(config('settings.is_whatsapp_ordering_mode')){
-            $mode="whatsappMode";
+    } else {
+        if (config('settings.is_whatsapp_ordering_mode')) {
+            $mode = "whatsappMode";
         }
-        if(config('settings.is_pos_cloud_mode')){
-            $mode="posMode";
+        if (config('settings.is_pos_cloud_mode')) {
+            $mode = "posMode";
         }
     }
-    if(config('app.isft')){
-        $mode="index";
+    if (config('app.isft')) {
+        $mode = "index";
     }
 
     for ($i = 0; $i < count($exploded); $i += 2) {
-        
-        Route::get('/'.strtolower($exploded[$i]), 'FrontEndController@'.$mode)->name('lang.'.strtolower($exploded[$i]));
+
+        Route::get('/' . strtolower($exploded[$i]), 'FrontEndController@' . $mode)->name('lang.' . strtolower($exploded[$i]));
     }
 }
 
@@ -350,4 +356,6 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
 Route::get('onboarding', 'FrontEndController@onboarding')->name('sd.onboarding');
 
 Route::get('/{alias}', 'FrontEndController@restorant')->where('alias', '.*');
+
+
 

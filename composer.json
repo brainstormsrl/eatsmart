@@ -43,6 +43,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
+        "irazasyed/telegram-bot-sdk": "^3.9",
         "joedixon/laravel-translation": "@dev",
         "kkomelin/laravel-translatable-string-exporter": "^1.10",
         "laravel-frontend-presets/argon": "^1.0",
@@ -77,6 +78,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.5",
+        "barryvdh/laravel-ide-helper": "^2.12",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.1",

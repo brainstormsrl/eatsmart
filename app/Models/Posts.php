@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasTranslations;
 
+/**
+ * @mixin IdeHelperPosts
+ */
 class Posts extends Model
 {
     use HasFactory,HasTranslations;

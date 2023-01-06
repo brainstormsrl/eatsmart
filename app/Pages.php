@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperPages
+ */
 class Pages extends Model
 {
     protected $table = 'pages';

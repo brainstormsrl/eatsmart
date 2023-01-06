@@ -7,6 +7,9 @@ use Akaunting\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperVariants
+ */
 class Variants extends Model
 {
     use SoftDeletes;

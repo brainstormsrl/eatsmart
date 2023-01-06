@@ -28,6 +28,13 @@
       'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
     ),
   ),
+  'barryvdh/laravel-ide-helper' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+    ),
+  ),
   'berkayk/onesignal-laravel' => 
   array (
     'providers' => 
@@ -131,6 +138,17 @@
     'aliases' => 
     array (
       'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+  ),
+  'irazasyed/telegram-bot-sdk' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Telegram\\Bot\\Laravel\\TelegramServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Telegram' => 'Telegram\\Bot\\Laravel\\Facades\\Telegram',
     ),
   ),
   'joedixon/laravel-translation' => 

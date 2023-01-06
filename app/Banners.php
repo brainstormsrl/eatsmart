@@ -5,6 +5,9 @@ namespace App;
 use App\MyModel;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperBanners
+ */
 class Banners extends MyModel
 {
     protected $table = 'banners';

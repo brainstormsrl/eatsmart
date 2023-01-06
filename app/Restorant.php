@@ -9,6 +9,9 @@ use Spatie\OpeningHours\OpeningHours;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperRestorant
+ */
 class Restorant extends MyModel
 {
     use SoftDeletes;

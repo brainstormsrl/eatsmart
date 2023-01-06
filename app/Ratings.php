@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperRatings
+ */
 class Ratings extends Model
 {
     public function user()

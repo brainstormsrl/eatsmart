@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperTables
+ */
 class Tables extends Model
 {
     protected $fillable = [

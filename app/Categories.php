@@ -8,6 +8,9 @@ use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
+/**
+ * @mixin IdeHelperCategories
+ */
 class Categories extends TranslateAwareModel implements Sortable
 {
 
