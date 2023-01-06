@@ -5,6 +5,9 @@ namespace App;
 use App\MyModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperCity
+ */
 class City extends MyModel
 {
     use SoftDeletes;

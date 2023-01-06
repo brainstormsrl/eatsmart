@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperMyModel
+ */
 class MyModel extends Model
 {
     protected function getImge($imageValue, $default, $version = '_large.jpg')

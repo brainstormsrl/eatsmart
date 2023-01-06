@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperSmsVerification
+ */
 class SmsVerification extends Model
 {
     protected $fillable = [

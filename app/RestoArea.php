@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperRestoArea
+ */
 class RestoArea extends Model
 {
     public $table = 'restoareas';

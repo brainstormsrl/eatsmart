@@ -8,6 +8,9 @@ use App\Models\TranslateAwareModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperOptions
+ */
 class Options extends TranslateAwareModel
 {
     use SoftDeletes;

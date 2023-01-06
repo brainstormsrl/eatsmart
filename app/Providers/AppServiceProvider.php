@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Settings;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+use DB;
+use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if ($this->app->isLocal()) {
+            $this->app->register(IdeHelperServiceProvider::class);
+        }
         //ignore default migrations from Cashier
         Cashier::ignoreMigrations();
     }
@@ -36,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         }
         Schema::defaultStringLength(191);
         try {
-            \DB::connection()->getPdo();
+            DB::connection()->getPdo();
             $settings = Schema::hasTable('settings') && Settings::find(1) ? Settings::find(1)->toArray() : [];
 
             //Site logo
@@ -72,8 +78,8 @@ class AppServiceProvider extends ServiceProvider
             }
             $settings['modules']=$modules;
 
-           
-            
+
+
             config([
                 'global' =>  $settings,
             ]);
@@ -98,7 +104,7 @@ class AppServiceProvider extends ServiceProvider
                     ['title'=>'Time format', 'key'=>'TIME_FORMAT', 'value'=>'AM/PM', 'ftype'=>'select', 'data'=>['AM/PM'=>'AM/PM', '24hours '=>'24 Hours']],
                     ['title'=>'Date and time display', 'key'=>'DATETIME_DISPLAY_FORMAT', 'value'=>'d M Y h:i A'],
                     ['title'=>'Working time display format','help'=>"For 24h use 'E HH:mm' and for AM/PM use 'E h:mm a'", 'key'=>'DATETIME_WORKING_HOURS_DISPLAY_FORMAT_NEW', 'value'=>'E HH:mm'],
-    
+
                 ],
             ]]);
 
@@ -110,7 +116,7 @@ class AppServiceProvider extends ServiceProvider
             //Templates
             $templatesModules=[];
             $templatesModules['defaulttemplate']=__('Default template');
-            
+
             foreach (Module::all() as $key => $module) {
                 if($module->get('isSubscriptionModule')){
                     $subscriptionsModules[$module->get('name')]=$module->get('name');
@@ -119,10 +125,10 @@ class AppServiceProvider extends ServiceProvider
                     $templatesModules[$module->get('alias')]=$module->get('name');
                 }
             }
-            config(['config.env.1.fields.0.data' => $subscriptionsModules]); 
-            config(['config.env.0.fields.7.data' => $templatesModules]); 
-        } catch (\Exception $e) {
-           
+            config(['config.env.1.fields.0.data' => $subscriptionsModules]);
+            config(['config.env.0.fields.7.data' => $templatesModules]);
+        } catch (Exception $e) {
+
         }
     }
 }

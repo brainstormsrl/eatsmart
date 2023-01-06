@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasConfig;
 
+/**
+ * @mixin IdeHelperCartStorageModel
+ */
 class CartStorageModel extends Model
 {
     use HasFactory;

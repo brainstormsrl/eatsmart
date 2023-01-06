@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+/**
+ * @mixin IdeHelperCoupons
+ */
 class Coupons extends Model
 {
     protected $table = 'coupons';

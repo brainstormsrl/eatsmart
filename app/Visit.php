@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperVisit
+ */
 class Visit extends Model
 {
     protected $fillable = [

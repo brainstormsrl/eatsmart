@@ -10,6 +10,9 @@ use App\Traits\HasConfig;
 use Akaunting\Module\Facade as Module;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @mixin IdeHelperOrder
+ */
 class Order extends Model
 {
     use SoftDeletes;
