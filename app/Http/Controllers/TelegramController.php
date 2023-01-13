@@ -39,6 +39,6 @@ class TelegramController extends Controller
 
     public function setWebhook()
     {
-        Artisan::call('telegram:webhook test_bot');
+        Artisan::call('telegram:webhook', ['bot?' => 'test_bot', '--setup']);
     }
 }
