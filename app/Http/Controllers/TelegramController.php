@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TelegramUser;
 use App\User;
+use Illuminate\Support\Facades\Artisan;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramController extends Controller
@@ -34,5 +35,10 @@ class TelegramController extends Controller
                 ]);
             }
         }
+    }
+
+    public function setWebhook()
+    {
+        Artisan::call('telegram:webhook test_bot');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,7 @@ Route::group([
 ], function () {
     Route::post('/webhook', 'index');
     Route::get('/show', 'show');
+    Route::get('/setup/webhook', 'setWebhook');
 });
 
 Route::get('/', 'FrontEndController@index')->name('front');
@@ -356,6 +358,3 @@ Route::post('/fb-order', 'OrderController@fbOrderMsg')->name('fb.order');
 Route::get('onboarding', 'FrontEndController@onboarding')->name('sd.onboarding');
 
 Route::get('/{alias}', 'FrontEndController@restorant')->where('alias', '.*');
-
-
-
