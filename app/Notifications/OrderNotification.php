@@ -263,7 +263,7 @@ class OrderNotification extends Notification
         $table = Tables::find($this->order->table_id);
         $restoarea = $table->restoarea()->first();
         $telegramUser = TelegramUser::where('user_id', $restoarea->user_id)->firstOrFail();
-        $oraComenzii = date('H:i', strtotime($this->order->created_at));
+        $oraComenzii = date('H:i', strtotime($this->order->updated_at));
 
         $message = "🚀 *Comanda Noua!*\n\nZona: *{$restoarea->name}*\nMasa: *{$table->name}*\nOra Comenzii : *{$oraComenzii}*";
 
