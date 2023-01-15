@@ -44,11 +44,11 @@ return [
     'isqrsaas' => env('APP_PROJECT_TYPE', 'ft') == 'qrsaas',
     'iswp' => env('IS_WHATSAPP_ORDERING_MODE', false),
     'isft' => env('APP_PROJECT_TYPE', 'ft') == 'ft',
-    'ispc' => env('IS_POS_CLOUD_MODE',false),
-    'isag' => env('IS_AGRIS_MODE',false),
-    'issd' => env('IS_SOCIAL_DRIVE_MODE',false),
-    'isqrexact' => env('APP_PROJECT_TYPE', 'ft') == 'qrsaas' && !( env('IS_POS_CLOUD_MODE',false) || env('IS_WHATSAPP_ORDERING_MODE', false) || env('IS_AGRIS_MODE', false) || env('IS_SOCIAL_DRIVE_MODE',false)),
-    'ordering' => env('APP_PROJECT_TYPE', 'ft') != 'qrsaas' || env('APP_PROJECT_TYPE', 'ft') == 'qrsaas' && ! env('QRSAAS_DISABLE_ODERING', false),
+    'ispc' => env('IS_POS_CLOUD_MODE', false),
+    'isag' => env('IS_AGRIS_MODE', false),
+    'issd' => env('IS_SOCIAL_DRIVE_MODE', false),
+    'isqrexact' => env('APP_PROJECT_TYPE', 'ft') == 'qrsaas' && !(env('IS_POS_CLOUD_MODE', false) || env('IS_WHATSAPP_ORDERING_MODE', false) || env('IS_AGRIS_MODE', false) || env('IS_SOCIAL_DRIVE_MODE', false)),
+    'ordering' => env('APP_PROJECT_TYPE', 'ft') != 'qrsaas' || env('APP_PROJECT_TYPE', 'ft') == 'qrsaas' && !env('QRSAAS_DISABLE_ODERING', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -111,7 +111,7 @@ return [
     |
     */
 
-    'timezone' => env('TIME_ZONE', 'UTC'),
+    'timezone' => env('TIME_ZONE', 'Europe/Chisinau'),
 
     /*
     |--------------------------------------------------------------------------
