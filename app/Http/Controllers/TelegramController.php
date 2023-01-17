@@ -15,7 +15,7 @@ class TelegramController extends Controller
         $message = $webhook->getMessage();
 
         if ($message->isType('contact')) {
-            $user = User::where('phone', 'like', $message->contact->phoneNumber)->first();
+            $user = User::where('phone', 'like', '%' . $message->contact->phoneNumber . '%')->first();
             if ($user) {
                 $telegramUser = TelegramUser::updateOrCreate([
                     'user_id' => $user->id,
